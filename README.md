@@ -1,44 +1,43 @@
-<!-- PORTFOLIO PROJECT PROFILE: maintained by the repository owner -->
+# Sky OAuth Authorization-Code Lab (Scala)
 
-## Project profile and code-audit snapshot
+**Status: engineering beta / security learning product.** This repository now contains a real Scala 3 authorization-code + PKCE core instead of the previous Python placeholder.
 
-**What this is:** **Scala-OAuth-Server** is a public repository described as: “Enterprise-grade oauth server implementation in Scala. #SkyCoin4444 #AI #Blockchain #DevOps #Innovation” Its dominant language signals are **Python (4 files)**.
+## Implemented
 
-**Why it has value:** Its value is best understood through the implementation evidence currently present in the repository: **18 tracked files** were observed in the shallow audit, with the source structure and existing documentation providing the project’s specific context. This README does not treat a prototype, experiment, or archive as a production system without supporting evidence.
+- registered client and exact redirect-URI checks
+- single-use authorization codes
+- PKCE S256 challenge verification
+- constant-time challenge comparison
+- short authorization-code TTL and access-token TTL
+- cryptographically random opaque codes/tokens
+- bounded client, subject, code, and verifier inputs
+- expiry and replay rejection
+- Scala/JUnit verification through Maven
+- dependency audit and non-root container smoke gate
 
-**Implementation evidence:** 2 test-related file(s) detected; 2 dependency or package manifest(s) detected; 2 build/CI/infrastructure signal(s) detected; and 3 documentation or governance file(s) detected. Test filenames observed include `tests/__init__.py`, `tests/test_main.py`. Dependency or package files include `package.json`, `requirements.txt`. Build, CI, or infrastructure signals include `Dockerfile`, `.github/workflows/ci.yml`.
+## Build and test
 
-**Current status:** The repository is tracked on the `main` branch. The existing source tree, configuration, tests, workflows, and documentation remain authoritative for supported behavior and maturity. A code audit is not a production-readiness certification, and the presence of a test or workflow file does not establish that all checks pass.
+```bash
+mvn clean verify
+```
 
-**Relationship to the wider portfolio:** This repository is one focused component of the broader Skyler Blue Spillers portfolio across AI, software engineering, cloud and DevOps, cybersecurity, blockchain, finance, education, social systems, and creative work. It may provide a service boundary, implementation pattern, experiment, archive, or reusable idea for related repositories. Treat repositories as technical dependencies only where documented interfaces and verified project requirements support that relationship.
+## Container smoke run
 
-**Quality and security note:** No obvious secret-like pattern was detected by the limited static scan; this is not a substitute for a security audit. No TODO/FIXME marker was detected in the scanned text files.
+```bash
+docker build -t sky-scala-oauth .
+docker run --rm sky-scala-oauth
+```
 
----
+## Security and product boundary
 
-# Scala Oauth Server
+This is **not a complete OAuth 2.0/OIDC authorization server** and must not be presented as one. It does not implement browser authorization/consent UI, client authentication, refresh tokens, token introspection/revocation, OIDC ID tokens/discovery/JWKS, scopes/claims, user authentication, durable persistence, key rotation, issuer metadata, rate limiting, audit-log durability, HA, or production deployment.
 
-![GitHub stars](https://img.shields.io/github/stars/skylerblue333/Scala-OAuth-Server?style=flat-square)
-![GitHub license](https://img.shields.io/github/license/skylerblue333/Scala-OAuth-Server?style=flat-square)
+Its commercial/engineering value is as a small, reviewable PKCE authorization-code primitive and reference implementation. A production identity service should use a mature audited OAuth/OIDC provider or undergo a substantially broader standards/security program.
 
-## 🌟 Overview
-**Scala-OAuth-Server** is a professional-grade project within the **SkyCoin4444** ecosystem. It focuses on delivering high-value solutions in the domain of **Python**.
+## SKYCOIN4444 role
 
-## 🚀 Key Features
-- **Scalable Architecture**: Designed for enterprise-level growth and performance.
-- **Modern Standards**: Implements best practices for clean code and maintainability.
-- **Robust Integration**: Built to work seamlessly within modern cloud-native environments.
+Potential identity/security lab component only. The canonical ecosystem identity boundary should consume stable standards-based interfaces instead of copying this implementation directly into a flagship application.
 
-## 🛠️ Technology Stack
-- **Primary Domain**: Python
-- **Ecosystem**: SkyCoin4444 Digital Platform
+## License
 
-## 📂 Structure
-The project is organized into a modular structure to ensure clarity and ease of development.
-
-## 👨‍💻 Author
-**Skyler Blue Spillers**
-*Professional Chess Player & Software Engineer*
-
----
-*Powered by SkyCoin4444*
+See `LICENSE`.
