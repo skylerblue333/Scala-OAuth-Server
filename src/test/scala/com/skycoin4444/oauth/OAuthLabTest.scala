@@ -1,6 +1,7 @@
 package com.skycoin4444.oauth
 
-import java.time.{Clock, Instant, ZoneOffset}
+import java.security.SecureRandom
+import java.time.{Clock, Duration, Instant, ZoneOffset}
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -26,7 +27,8 @@ class OAuthLabTest:
 
   @Test def expiredCodeIsRejected(): Unit =
     val fixed = Instant.parse("2026-08-24T00:00:00Z")
-    val issueClock = Clock.fixed(fixed, ZoneOffset.UTC)
-    val lab = OAuthLab(Map("client-1" -> Set(redirect)), issueClock)
+    val clock = Clock.fixed(fixed, ZoneOffset.UTC)
+    val lab = OAuthLab(Map("client-1" -> Set(redirect)), clock, SecureRandom(), Duration.ZERO)
     val code = lab.authorize("client-1", redirect, "user-1", OAuthLab.s256(verifier))
-    assertTrue(code.expiresAt.isAfter(fixed))
+    assertEquals(fixed, code.expiresAt)
+    assertThrows(classOf[IllegalArgumentException], () => lab.exchange(code.value, "client-1", redirect, verifier))
